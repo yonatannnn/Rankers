@@ -40,7 +40,7 @@ class CheckScreen extends StatelessWidget {
     if (authProvider.user == null) {
       return LoginScreen();
     } else {
-      return AddScreen();
+      return Homescreen();
     }
   }
 }
