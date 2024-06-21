@@ -71,50 +71,47 @@ class _HomescreenState extends State<Homescreen> {
                 child: Row(
                   children: [
                     GradeSeparatorButton(
+                      toBeWritten: '1 - 12',
                       opacity: 0.5,
-                      grade: 10,
+                      grade: 12,
                       onPressed: () {
                         print('Grade 10 button pressed');
                       },
                     ),
                     SizedBox(width: 10), // Separator
                     GradeSeparatorButton(
-                      opacity: 0.5,
-                      grade: 11,
-                      onPressed: () {
-                        print('Grade 11 button pressed');
-                      },
-                    ),
-                    SizedBox(width: 10), // Separator
-                    GradeSeparatorButton(
+                      toBeWritten: '6',
                       opacity: 0.5,
                       grade: 12,
                       onPressed: () {
-                        print('Grade 12 button pressed');
+                        print('Grade 10 button pressed');
                       },
                     ),
                     SizedBox(width: 10), // Separator
                     GradeSeparatorButton(
+                      toBeWritten: '10',
                       opacity: 0.5,
-                      grade: 9,
+                      grade: 12,
                       onPressed: () {
-                        print('Grade 9 button pressed');
+                        print('Grade 10 button pressed');
                       },
                     ),
                     SizedBox(width: 10), // Separator
                     GradeSeparatorButton(
+                      toBeWritten: '12',
                       opacity: 0.5,
-                      grade: 8,
+                      grade: 12,
                       onPressed: () {
-                        print('Grade 8 button pressed');
+                        print('Grade 10 button pressed');
                       },
                     ),
                     SizedBox(width: 10), // Separator
                     GradeSeparatorButton(
+                      toBeWritten: 'Graduate',
                       opacity: 0.5,
-                      grade: 7,
+                      grade: 12,
                       onPressed: () {
-                        print('Grade 7 button pressed');
+                        print('Grade 10 button pressed');
                       },
                     ),
                   ],

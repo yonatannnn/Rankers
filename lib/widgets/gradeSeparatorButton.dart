@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:rankers/utils/text.dart';
 
 class GradeSeparatorButton extends StatelessWidget {
+  final String toBeWritten;
   final double opacity;
   final int grade;
   final VoidCallback onPressed;
 
   const GradeSeparatorButton({
     Key? key,
+    required this.toBeWritten,
     required this.opacity,
     required this.grade,
     required this.onPressed,
@@ -20,7 +22,6 @@ class GradeSeparatorButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 100,
       height: 100,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -31,7 +32,7 @@ class GradeSeparatorButton extends StatelessWidget {
         ),
         onPressed: onPressed,
         child: TextUtil(
-          text: '$grade',
+          text: '$toBeWritten',
           size: 20,
         ),
       ),
