@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "797593609341",
+    "project_id": "top-rankers-2ba2f",
+    "storage_bucket": "top-rankers-2ba2f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:797593609341:android:977e845b922d0659863d14",
+        "android_client_info": {
+          "package_name": "com.example.rankers"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCB_uNhM7ur9yUT2yaZJ19cPvC0Qml1hA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:797593609341:android:6f9be8b554275d49863d14",
+        "android_client_info": {
+          "package_name": "com.example.top_rankers"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCB_uNhM7ur9yUT2yaZJ19cPvC0Qml1hA8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
