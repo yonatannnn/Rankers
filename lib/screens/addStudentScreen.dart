@@ -198,7 +198,7 @@ class _AddScreenState extends State<AddScreen> {
                               print('Student Data: ${student.toMap()}');
                               Studentservice firebaseService = Studentservice();
                               try {
-                                firebaseService.getStudents();
+                                firebaseService.saveStudentToFirestore(student);
                                 _nameController.clear();
                                 _schoolNameController.clear();
                                 _matricResultController.clear();

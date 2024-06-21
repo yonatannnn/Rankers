@@ -48,6 +48,7 @@ class StudentModel {
       'name': name,
       'grade': grade,
       'school': school,
+      'phoneNumber': phoneNumber,
       if (average != null) 'average': average,
       if (rank != null) 'rank': rank,
       if (matricResult != null) 'matricResult': matricResult,

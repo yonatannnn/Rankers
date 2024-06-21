@@ -1,14 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:rankers/screens/addStudentScreen.dart';
-import 'package:rankers/screens/loginScreen.dart';
-import 'package:rankers/services/authService.dart';
-import 'package:rankers/utils/text.dart';
+import 'package:rankers/models/class.dart';
+import 'package:rankers/models/student.dart';
 import 'package:rankers/widgets/Drawer.dart';
 import 'package:rankers/widgets/gradeSeparatorButton.dart';
 import 'package:rankers/widgets/singleStudent.dart';
-import '../models/student.dart';
+import 'package:rankers/services/studentService.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -18,58 +14,7 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
-  List<StudentModel> students = [
-    StudentModel.grade10(
-      name: 'Elias',
-      grade: 10,
-      school: 'Ebenezer',
-      matricResult: 3.5,
-      phoneNumber: 1234567890,
-    ),
-    StudentModel.grade10(
-      name: 'Elias',
-      grade: 10,
-      school: 'Ebenezer',
-      matricResult: 3.5,
-      phoneNumber: 1234567890,
-    ),
-    StudentModel.grade10(
-      name: 'Elias',
-      grade: 10,
-      school: 'Ebenezer',
-      matricResult: 3.5,
-      phoneNumber: 1234567890,
-    ),
-    StudentModel.grade10(
-      name: 'Elias',
-      grade: 10,
-      school: 'Ebenezer',
-      matricResult: 3.5,
-      phoneNumber: 1234567890,
-    ),
-    StudentModel.grade12(
-      name: 'Jo',
-      grade: 12,
-      school: 'Mission',
-      matricResult: 610,
-      phoneNumber: 1234567890,
-    ),
-    StudentModel.grade6(
-      name: 'Six',
-      grade: 6,
-      school: 'Beza',
-      matricResult: 99.9,
-      phoneNumber: 1234567890,
-    ),
-    StudentModel.otherGrades(
-      name: 'Other Grade',
-      grade: 9,
-      school: 'Ebenezer',
-      average: 90.0,
-      rank: 1,
-      phoneNumber: 1234567890,
-    ),
-  ];
+  final Studentservice _studentService = Studentservice();
 
   @override
   Widget build(BuildContext context) {
@@ -142,25 +87,47 @@ class _HomescreenState extends State<Homescreen> {
             ),
             SizedBox(height: 10),
             Expanded(
-              child: ListView.builder(
-                itemCount: students.length,
-                itemBuilder: (context, index) {
-                  final student = students[index];
-                  return Student(
-                    id: student.grade == 10
-                        ? 10
-                        : student.grade == 12
-                            ? 12
-                            : student.grade == 6
-                                ? 6
-                                : 0,
-                    name: student.name,
-                    grade: student.grade,
-                    school: student.school,
-                    average: student.average,
-                    rank: student.rank,
-                    matricResult: student.matricResult,
-                    phoneNumber: student.phoneNumber,
+              child: StreamBuilder<List<StudentModel>>(
+                stream: _studentService.getStudents(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+                  List<StudentModel> students = snapshot.data ?? [];
+                  return ListView.builder(
+                    itemCount: students.length,
+                    itemBuilder: (context, index) {
+                      final student = students[index];
+                      int id;
+                      switch (student.grade) {
+                        case 10:
+                          id = Grade.grade10;
+                          break;
+                        case 12:
+                          id = Grade.grade12;
+                          break;
+                        case 6:
+                          id = Grade.grade6;
+                          break;
+                        default:
+                          id = Grade.defaultId;
+                      }
+
+                      return Student(
+                        id: id,
+                        name: student.name,
+                        grade: student.grade,
+                        school: student.school,
+                        average: student.average,
+                        rank: student.rank,
+                        matricResult: student.matricResult,
+                        phoneNumber: student.phoneNumber,
+                      );
+                    },
                   );
                 },
               ),

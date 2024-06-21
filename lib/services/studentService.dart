@@ -1,25 +1,41 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:rankers/models/student.dart';
-import 'package:rankers/widgets/singleStudent.dart';
-import 'package:firebase_database/firebase_database.dart';
 
 class Studentservice extends ChangeNotifier {
-  final FirebaseFirestore _firebaseFiresore = FirebaseFirestore.instance;
-  Stream<List<Map<String, dynamic>>> getStudents() {
-    print('inside getStudent');
-    return _firebaseFiresore.collection("student").snapshots().map((snapshot) {
-      print(snapshot);
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+
+  Stream<List<StudentModel>> getStudents() {
+    return _firebaseFirestore.collection("student").snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
-        final user = doc.data();
-        print('userrrrr ${user}');
-        return user;
+        if (doc.exists) {
+          if (doc['grade'] != 6 && doc['grade'] != 10 && doc['grade'] != 12) {
+            return StudentModel.otherGrades(
+              name: doc['name'],
+              grade: doc['grade'],
+              school: doc['school'],
+              average: doc['average'],
+              rank: doc['rank'],
+              phoneNumber: doc['phoneNumber'],
+            );
+          } else {
+            return StudentModel.grade10(
+              name: doc['name'],
+              grade: doc['grade'],
+              school: doc['school'],
+              matricResult: doc['matricResult'],
+              phoneNumber: doc['phoneNumber'],
+            );
+          }
+        } else {
+          throw Exception('Document does not exist');
+        }
       }).toList();
     });
   }
 
   Future<void> saveStudentToFirestore(StudentModel student) async {
-    CollectionReference collection = _firebaseFiresore.collection('student');
+    CollectionReference collection = _firebaseFirestore.collection('student');
     try {
       await collection.add(student.toMap());
       print('Data saved successfully!');
