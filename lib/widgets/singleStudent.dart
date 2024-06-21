@@ -8,17 +8,19 @@ class Student extends StatelessWidget {
   final double? average;
   final int? rank;
   final double? matricResult;
+  final phoneNumber;
 
-  Student({
-    Key? key,
-    required this.id,
-    required this.name,
-    required this.grade,
-    required this.school,
-    this.average,
-    this.rank,
-    this.matricResult,
-  }) : super(key: key);
+  Student(
+      {Key? key,
+      required this.id,
+      required this.name,
+      required this.grade,
+      required this.school,
+      this.average,
+      this.rank,
+      this.matricResult,
+      this.phoneNumber})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

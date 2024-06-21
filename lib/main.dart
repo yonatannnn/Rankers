@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:rankers/firebase_options.dart';
+import 'package:rankers/screens/addStudentScreen.dart';
 import 'package:rankers/screens/homeScreen.dart';
 import 'package:rankers/screens/registrationScreen.dart';
 import 'package:rankers/services/authService.dart';
@@ -39,7 +40,7 @@ class CheckScreen extends StatelessWidget {
     if (authProvider.user == null) {
       return LoginScreen();
     } else {
-      return Homescreen();
+      return AddScreen();
     }
   }
 }

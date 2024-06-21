@@ -1,9 +1,13 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:rankers/screens/addStudentScreen.dart';
+import 'package:rankers/screens/loginScreen.dart';
 import 'package:rankers/services/authService.dart';
 import 'package:rankers/utils/text.dart';
+import 'package:rankers/widgets/Drawer.dart';
 import 'package:rankers/widgets/gradeSeparatorButton.dart';
 import 'package:rankers/widgets/singleStudent.dart';
-
 import '../models/student.dart';
 
 class Homescreen extends StatefulWidget {
@@ -16,44 +20,62 @@ class Homescreen extends StatefulWidget {
 class _HomescreenState extends State<Homescreen> {
   List<StudentModel> students = [
     StudentModel.grade10(
-        name: 'Elias', grade: 10, school: 'Ebenezer', matricResult: 3.5),
+      name: 'Elias',
+      grade: 10,
+      school: 'Ebenezer',
+      matricResult: 3.5,
+      phoneNumber: 1234567890,
+    ),
     StudentModel.grade10(
-        name: 'Elias', grade: 10, school: 'Ebenezer', matricResult: 3.5),
+      name: 'Elias',
+      grade: 10,
+      school: 'Ebenezer',
+      matricResult: 3.5,
+      phoneNumber: 1234567890,
+    ),
     StudentModel.grade10(
-        name: 'Elias', grade: 10, school: 'Ebenezer', matricResult: 3.5),
+      name: 'Elias',
+      grade: 10,
+      school: 'Ebenezer',
+      matricResult: 3.5,
+      phoneNumber: 1234567890,
+    ),
     StudentModel.grade10(
-        name: 'Elias', grade: 10, school: 'Ebenezer', matricResult: 3.5),
+      name: 'Elias',
+      grade: 10,
+      school: 'Ebenezer',
+      matricResult: 3.5,
+      phoneNumber: 1234567890,
+    ),
     StudentModel.grade12(
-        name: 'Jo', grade: 12, school: 'Mission', matricResult: 610),
+      name: 'Jo',
+      grade: 12,
+      school: 'Mission',
+      matricResult: 610,
+      phoneNumber: 1234567890,
+    ),
     StudentModel.grade6(
-        name: 'Six', grade: 6, school: 'Beza', matricResult: 99.9),
+      name: 'Six',
+      grade: 6,
+      school: 'Beza',
+      matricResult: 99.9,
+      phoneNumber: 1234567890,
+    ),
     StudentModel.otherGrades(
-        name: 'Other Grade',
-        grade: 9,
-        school: 'Ebenezer',
-        average: 90.0,
-        rank: 1),
+      name: 'Other Grade',
+      grade: 9,
+      school: 'Ebenezer',
+      average: 90.0,
+      rank: 1,
+      phoneNumber: 1234567890,
+    ),
   ];
-
-  void logout() {
-    final as = AuthService();
-    try {
-      as.signOut();
-    } catch (e) {
-      print(e);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      drawer: Drawer(
-        child: ElevatedButton(
-          child: Text('Logout'),
-          onPressed: () => logout(),
-        ),
-      ),
+      drawer: CustomDrawer(),
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -75,7 +97,7 @@ class _HomescreenState extends State<Homescreen> {
                       opacity: 0.5,
                       grade: 12,
                       onPressed: () {
-                        print('Grade 10 button pressed');
+                        print('Grade 12 button pressed');
                       },
                     ),
                     SizedBox(width: 10), // Separator
@@ -84,7 +106,7 @@ class _HomescreenState extends State<Homescreen> {
                       opacity: 0.5,
                       grade: 12,
                       onPressed: () {
-                        print('Grade 10 button pressed');
+                        print('Grade 6 button pressed');
                       },
                     ),
                     SizedBox(width: 10), // Separator
@@ -102,7 +124,7 @@ class _HomescreenState extends State<Homescreen> {
                       opacity: 0.5,
                       grade: 12,
                       onPressed: () {
-                        print('Grade 10 button pressed');
+                        print('Grade 12 button pressed');
                       },
                     ),
                     SizedBox(width: 10), // Separator
@@ -111,7 +133,7 @@ class _HomescreenState extends State<Homescreen> {
                       opacity: 0.5,
                       grade: 12,
                       onPressed: () {
-                        print('Grade 10 button pressed');
+                        print('Graduate button pressed');
                       },
                     ),
                   ],
@@ -138,6 +160,7 @@ class _HomescreenState extends State<Homescreen> {
                     average: student.average,
                     rank: student.rank,
                     matricResult: student.matricResult,
+                    phoneNumber: student.phoneNumber,
                   );
                 },
               ),
