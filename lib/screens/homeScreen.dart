@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:rankers/models/class.dart';
-import 'package:rankers/models/student.dart';
 import 'package:rankers/widgets/Drawer.dart';
+import 'package:rankers/widgets/graduateStudentsList.dart';
+import 'package:rankers/widgets/matric10nthStudetntList.dart';
+import 'package:rankers/widgets/matric12thStudentList.dart';
+import 'package:rankers/widgets/allStudentList.dart';
+import 'package:rankers/widgets/firstRankStudentsList.dart';
 import 'package:rankers/widgets/gradeSeparatorButton.dart';
-import 'package:rankers/widgets/singleStudent.dart';
-import 'package:rankers/services/studentService.dart';
+import 'package:rankers/widgets/ministryResult.dart';
+import 'package:rankers/widgets/secondRankStudents.dart';
+import 'package:rankers/widgets/thirdRankStudents.dart';
 
 class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
@@ -14,7 +18,7 @@ class Homescreen extends StatefulWidget {
 }
 
 class _HomescreenState extends State<Homescreen> {
-  final Studentservice _studentService = Studentservice();
+  int chooseWidget = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -38,47 +42,90 @@ class _HomescreenState extends State<Homescreen> {
                 child: Row(
                   children: [
                     GradeSeparatorButton(
-                      toBeWritten: '1 - 12',
+                      toBeWritten: 'All',
                       opacity: 0.5,
-                      grade: 12,
+                      rank: 0,
                       onPressed: () {
-                        print('Grade 12 button pressed');
+                        setState(() {
+                          chooseWidget = 0;
+                        });
                       },
                     ),
-                    SizedBox(width: 10), // Separator
+                    SizedBox(width: 10),
+                    GradeSeparatorButton(
+                      toBeWritten: '1',
+                      opacity: 0.5,
+                      rank: 1,
+                      onPressed: () {
+                        setState(() {
+                          chooseWidget = 1;
+                        });
+                      },
+                    ),
+                    SizedBox(width: 10),
+                    GradeSeparatorButton(
+                      toBeWritten: '2',
+                      opacity: 0.5,
+                      rank: 2,
+                      onPressed: () {
+                        setState(() {
+                          chooseWidget = 2;
+                        });
+                      },
+                    ),
+                    SizedBox(width: 10),
+                    GradeSeparatorButton(
+                      toBeWritten: '3',
+                      opacity: 0.5,
+                      rank: 3,
+                      onPressed: () {
+                        setState(() {
+                          chooseWidget = 3;
+                        });
+                      },
+                    ),
+                    SizedBox(width: 10),
                     GradeSeparatorButton(
                       toBeWritten: '6',
                       opacity: 0.5,
-                      grade: 12,
+                      rank: 6,
                       onPressed: () {
-                        print('Grade 6 button pressed');
+                        setState(() {
+                          chooseWidget = 6;
+                        });
                       },
                     ),
-                    SizedBox(width: 10), // Separator
+                    SizedBox(width: 10),
                     GradeSeparatorButton(
                       toBeWritten: '10',
                       opacity: 0.5,
-                      grade: 12,
+                      rank: 10,
                       onPressed: () {
-                        print('Grade 10 button pressed');
+                        setState(() {
+                          chooseWidget = 10;
+                        });
                       },
                     ),
-                    SizedBox(width: 10), // Separator
+                    SizedBox(width: 10),
                     GradeSeparatorButton(
                       toBeWritten: '12',
                       opacity: 0.5,
-                      grade: 12,
+                      rank: 12,
                       onPressed: () {
-                        print('Grade 12 button pressed');
+                        setState(() {
+                          chooseWidget = 12;
+                        });
                       },
                     ),
-                    SizedBox(width: 10), // Separator
+                    SizedBox(width: 10),
                     GradeSeparatorButton(
                       toBeWritten: 'Graduate',
                       opacity: 0.5,
-                      grade: 12,
+                      rank: -1,
                       onPressed: () {
-                        print('Graduate button pressed');
+                        setState(() {
+                          chooseWidget = 13;
+                        });
                       },
                     ),
                   ],
@@ -86,52 +133,23 @@ class _HomescreenState extends State<Homescreen> {
               ),
             ),
             SizedBox(height: 10),
-            Expanded(
-              child: StreamBuilder<List<StudentModel>>(
-                stream: _studentService.getStudents(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  if (snapshot.hasError) {
-                    print(snapshot.error);
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  }
-                  List<StudentModel> students = snapshot.data ?? [];
-                  return ListView.builder(
-                    itemCount: students.length,
-                    itemBuilder: (context, index) {
-                      final student = students[index];
-                      int id;
-                      switch (student.grade) {
-                        case 10:
-                          id = Grade.grade10;
-                          break;
-                        case 12:
-                          id = Grade.grade12;
-                          break;
-                        case 6:
-                          id = Grade.grade6;
-                          break;
-                        default:
-                          id = Grade.defaultId;
-                      }
-
-                      return Student(
-                        id: id,
-                        name: student.name,
-                        grade: student.grade,
-                        school: student.school,
-                        average: student.average,
-                        rank: student.rank,
-                        matricResult: student.matricResult,
-                        phoneNumber: student.phoneNumber,
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
+            if (chooseWidget == 0) ...[
+              Allstudentlist(),
+            ] else if (chooseWidget == 1) ...[
+              FirstRankStudentsList(),
+            ] else if (chooseWidget == 2) ...[
+              SecondRankStudentsList(),
+            ] else if (chooseWidget == 3) ...[
+              ThirdRankStudentsList(),
+            ] else if (chooseWidget == 6) ...[
+              MinistryRankStudentsList(),
+            ] else if (chooseWidget == 10) ...[
+              Matric10RankStudentsList(),
+            ] else if (chooseWidget == 12) ...[
+              Matric12RankStudentsList(),
+            ] else if (chooseWidget == 13) ...[
+              GraduateStudentsList(),
+            ],
           ],
         ),
       ),

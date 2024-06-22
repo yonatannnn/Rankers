@@ -1,26 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:rankers/utils/text.dart';
+import 'package:rankers/utils/text.dart'; // Ensure this contains TextUtil widget definition
 
 class GradeSeparatorButton extends StatelessWidget {
   final String toBeWritten;
   final double opacity;
-  final int grade;
+  final int rank;
   final VoidCallback onPressed;
 
   const GradeSeparatorButton({
     Key? key,
     required this.toBeWritten,
     required this.opacity,
-    required this.grade,
+    required this.rank,
     required this.onPressed,
   }) : super(key: key);
 
-  int getGrade() {
-    return grade;
+  int getRank() {
+    return rank;
   }
 
   @override
   Widget build(BuildContext context) {
+    String above;
+    if (rank == 1 || rank == 2 || rank == 3) {
+      above = 'Rank';
+    } else if (rank == 6 || rank == 10 || rank == 12) {
+      above = 'Grade';
+    } else {
+      above = 'Grade';
+    }
     return SizedBox(
       height: 100,
       child: ElevatedButton(
@@ -31,9 +39,19 @@ class GradeSeparatorButton extends StatelessWidget {
           ),
         ),
         onPressed: onPressed,
-        child: TextUtil(
-          text: '$toBeWritten',
-          size: 20,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextUtil(
+              text: '$above',
+              size: 20,
+            ),
+            TextUtil(
+              text: '$toBeWritten',
+              size: 20,
+            ),
+          ],
         ),
       ),
     );
