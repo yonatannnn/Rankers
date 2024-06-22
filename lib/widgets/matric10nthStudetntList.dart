@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rankers/models/class.dart';
 import 'package:rankers/models/student.dart';
+import 'package:rankers/screens/StudentDetailScreen.dart';
 import 'package:rankers/services/studentService.dart';
 import 'package:rankers/widgets/singleStudent.dart';
 
@@ -49,6 +50,15 @@ class Matric10RankStudentsList extends StatelessWidget {
                   rank: student.rank,
                   matricResult: student.matricResult,
                   phoneNumber: student.phoneNumber,
+                  onpressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          StudentDetailScreen(student: student),
+                    ),
+                  );
+                },
                 );
               } else {
                 return const SizedBox.shrink();

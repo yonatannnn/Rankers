@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rankers/models/class.dart'; // Ensure this contains Grade class definition
 import 'package:rankers/models/student.dart'; // Ensure this contains StudentModel class definition
+import 'package:rankers/screens/StudentDetailScreen.dart';
 import 'package:rankers/services/studentService.dart'; // Ensure this contains StudentService class definition
 import 'package:rankers/widgets/singleStudent.dart'; // Ensure this contains Student widget definition
 
@@ -49,6 +50,15 @@ class ThirdRankStudentsList extends StatelessWidget {
                   rank: student.rank,
                   matricResult: student.matricResult,
                   phoneNumber: student.phoneNumber,
+                  onpressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            StudentDetailScreen(student: student),
+                      ),
+                    );
+                  },
                 );
               } else {
                 return const SizedBox.shrink();
