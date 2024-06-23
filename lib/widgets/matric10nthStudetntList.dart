@@ -6,7 +6,8 @@ import 'package:rankers/services/studentService.dart';
 import 'package:rankers/widgets/singleStudent.dart';
 
 class Matric10RankStudentsList extends StatelessWidget {
-  const Matric10RankStudentsList({super.key});
+  final bool showButton;
+  const Matric10RankStudentsList(this.showButton, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,15 +51,16 @@ class Matric10RankStudentsList extends StatelessWidget {
                   rank: student.rank,
                   matricResult: student.matricResult,
                   phoneNumber: student.phoneNumber,
+                  showButtons: showButton,
                   onpressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          StudentDetailScreen(student: student),
-                    ),
-                  );
-                },
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            StudentDetailScreen(student: student),
+                      ),
+                    );
+                  },
                 );
               } else {
                 return const SizedBox.shrink();

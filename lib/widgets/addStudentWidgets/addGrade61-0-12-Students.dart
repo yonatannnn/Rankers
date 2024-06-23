@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rankers/models/student.dart';
 import 'package:rankers/services/studentService.dart';
+import 'package:provider/provider.dart';
+import 'package:rankers/services/authService.dart';
 
 class AddGrade6_10_12Student extends StatefulWidget {
   const AddGrade6_10_12Student({super.key});
@@ -17,8 +19,51 @@ class _AddStudentState6 extends State<AddGrade6_10_12Student> {
   final TextEditingController _matricResultController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
 
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Success"),
+          content: Text("Student added successfully!"),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Error"),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Access AuthService instance using Provider
+    final authService = Provider.of<AuthService>(context, listen: false);
+
     return Form(
       key: _formKey,
       child: Column(
@@ -85,7 +130,7 @@ class _AddStudentState6 extends State<AddGrade6_10_12Student> {
                   controller: _matricResultController,
                   style: TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
-                    labelText: 'Matric Result',
+                    labelText: 'Result',
                     labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(),
                   ),
@@ -108,16 +153,20 @@ class _AddStudentState6 extends State<AddGrade6_10_12Student> {
                   ),
                   keyboardType: TextInputType.number,
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the phone number.';
+                    if (value == null ||
+                        value.isEmpty ||
+                        value.length != 10 ||
+                        value[0] != '0') {
+                      return 'Please enter valid phone number.';
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                  onPressed: () async {
+                    bool canEdit = await authService.canPerformEdit();
+                    if (canEdit && _formKey.currentState!.validate()) {
                       StudentModel? student;
                       int phoneNumber =
                           int.tryParse(_phoneNumberController.text) ?? 0;
@@ -140,15 +189,19 @@ class _AddStudentState6 extends State<AddGrade6_10_12Student> {
                         StudentService firebaseService = StudentService();
                         try {
                           firebaseService.saveStudentToFirestore(student);
+                          _showSuccessDialog();
                           _nameController.clear();
                           _schoolNameController.clear();
                           _matricResultController.clear();
                           _gradeController.clear();
                           _phoneNumberController.clear();
                         } catch (e) {
-                          print(e);
+                          _showErrorDialog('Error');
                         }
                       }
+                    } else {
+                      _showErrorDialog(
+                          'You are not authorized to perform this action.');
                     }
                   },
                   child: const Text('Save'),

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:rankers/models/class.dart';
-import 'package:rankers/models/student.dart';
-import 'package:rankers/screens/StudentDetailScreen.dart';
 import 'package:rankers/services/studentService.dart';
 import 'package:rankers/widgets/singleStudent.dart';
+import 'package:rankers/models/student.dart';
+import 'package:rankers/models/class.dart';
+import 'package:rankers/screens/StudentDetailScreen.dart';
 
 class Matric12RankStudentsList extends StatelessWidget {
-  const Matric12RankStudentsList({super.key});
+  final bool showButton;
+  const Matric12RankStudentsList({Key? key, required this.showButton})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,15 +52,16 @@ class Matric12RankStudentsList extends StatelessWidget {
                   rank: student.rank,
                   matricResult: student.matricResult,
                   phoneNumber: student.phoneNumber,
+                  showButtons: showButton,
                   onpressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          StudentDetailScreen(student: student),
-                    ),
-                  );
-                },
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            StudentDetailScreen(student: student),
+                      ),
+                    );
+                  },
                 );
               } else {
                 return const SizedBox.shrink();

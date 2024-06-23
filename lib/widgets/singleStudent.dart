@@ -15,6 +15,9 @@ class Student extends StatelessWidget {
   final String? university;
   final double? CGPA;
   final CallbackAction onpressed;
+  final bool showButtons;
+  final CallbackAction? onDelete;
+  final CallbackAction? onEdit;
 
   Student({
     Key? key,
@@ -30,6 +33,9 @@ class Student extends StatelessWidget {
     this.university,
     this.CGPA,
     required this.onpressed,
+    this.showButtons = false,
+    this.onDelete,
+    this.onEdit,
   }) : super(key: key);
 
   @override
@@ -122,6 +128,24 @@ class Student extends StatelessWidget {
                 ],
               ],
             ),
+            if (showButtons) ...[
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  if (onEdit != null)
+                    IconButton(
+                      icon: Icon(Icons.edit, color: Colors.white),
+                      onPressed: onEdit,
+                    ),
+                  if (onDelete != null)
+                    IconButton(
+                      icon: Icon(Icons.delete, color: Colors.white),
+                      onPressed: onDelete,
+                    ),
+                ],
+              ),
+            ],
           ],
         ),
       ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rankers/models/student.dart';
 import 'package:rankers/services/studentService.dart';
+import 'package:provider/provider.dart'; // Import Provider package
+import 'package:rankers/services/authService.dart'; // Import AuthService
 
 class AddStudent extends StatefulWidget {
   const AddStudent({super.key});
@@ -18,8 +20,50 @@ class _AddStudentState extends State<AddStudent> {
   final TextEditingController _averageController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
 
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Success"),
+          content: Text("Student added successfully!"),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Error"),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
     return Form(
       key: _formKey,
       child: Column(
@@ -61,6 +105,8 @@ class _AddStudentState extends State<AddStudent> {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter the grade level.';
+                    } else if (value.length > 1) {
+                      return 'please enter valid grade level';
                     }
                     return null;
                   },
@@ -85,7 +131,7 @@ class _AddStudentState extends State<AddStudent> {
                 TextFormField(
                   controller: _rankController,
                   style: TextStyle(color: Colors.white),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Rank',
                     labelStyle: TextStyle(color: Colors.white),
                     border: OutlineInputBorder(),
@@ -93,7 +139,11 @@ class _AddStudentState extends State<AddStudent> {
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter Rank.';
+                      return 'Please enter valid Rank.';
+                    }
+                    int? rankValue = int.tryParse(value);
+                    if (rankValue == null || rankValue < 0 || rankValue > 3) {
+                      return 'Please enter a valid Rank between 0 and 3.';
                     }
                     return null;
                   },
@@ -126,16 +176,20 @@ class _AddStudentState extends State<AddStudent> {
                   ),
                   keyboardType: TextInputType.number,
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the phone number.';
+                    if (value == null ||
+                        value.isEmpty ||
+                        value.length != 10 ||
+                        value[0] != '0') {
+                      return 'Please enter valid phone number.';
                     }
                     return null;
                   },
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
+                  onPressed: () async {
+                    bool canEdit = await authService.canPerformEdit();
+                    if (canEdit && _formKey.currentState!.validate()) {
                       StudentModel? student;
                       int phoneNumber =
                           int.tryParse(_phoneNumberController.text) ?? 0;
@@ -158,6 +212,7 @@ class _AddStudentState extends State<AddStudent> {
                         StudentService firebaseService = StudentService();
                         try {
                           firebaseService.saveStudentToFirestore(student);
+                          _showSuccessDialog();
                           _nameController.clear();
                           _schoolNameController.clear();
                           _averageController.clear();
@@ -165,9 +220,12 @@ class _AddStudentState extends State<AddStudent> {
                           _gradeController.clear();
                           _phoneNumberController.clear();
                         } catch (e) {
-                          print(e);
+                          _showErrorDialog('Error');
                         }
                       }
+                    } else {
+                      _showErrorDialog(
+                          'You are not authorized to perform this action.');
                     }
                   },
                   child: const Text('Save'),

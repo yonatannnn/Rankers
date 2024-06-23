@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:rankers/models/class.dart'; // Ensure this contains Grade class definition
-import 'package:rankers/models/student.dart'; // Ensure this contains StudentModel class definition
+import 'package:rankers/models/class.dart';
+import 'package:rankers/models/student.dart'; 
 import 'package:rankers/screens/StudentDetailScreen.dart';
-import 'package:rankers/services/studentService.dart'; // Ensure this contains StudentService class definition
-import 'package:rankers/widgets/singleStudent.dart'; // Ensure this contains Student widget definition
+import 'package:rankers/services/studentService.dart';
+import 'package:rankers/widgets/singleStudent.dart'; 
 
 class SecondRankStudentsList extends StatelessWidget {
-  const SecondRankStudentsList({super.key});
+  final bool showButton;
+  const SecondRankStudentsList(this.showButton , {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +51,7 @@ class SecondRankStudentsList extends StatelessWidget {
                   rank: student.rank,
                   matricResult: student.matricResult,
                   phoneNumber: student.phoneNumber,
+                  showButtons: showButton,
                   onpressed: () {
                   Navigator.push(
                     context,

@@ -33,6 +33,15 @@ class AuthService extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<String?> getCurrentUserEmail() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return user.email;
+    } else {
+      return null;
+    }
+  }
+
   Future<UserCredential> signup(String email, password) async {
     try {
       UserCredential uc = await auth.createUserWithEmailAndPassword(
@@ -44,4 +53,10 @@ class AuthService extends ChangeNotifier {
       throw Exception(e.code);
     }
   }
+
+  Future<bool> canPerformEdit() async {
+  String? currentUserEmail = await getCurrentUserEmail();
+  return currentUserEmail == 'june@gmail.com';
+}
+
 }

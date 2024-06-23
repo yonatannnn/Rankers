@@ -1,5 +1,6 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:rankers/main.dart';
 import 'package:rankers/screens/homeScreen.dart';
 import 'package:rankers/screens/registrationScreen.dart';
 import 'package:rankers/services/authService.dart';
@@ -15,14 +16,26 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _isLoading = false;
+
   void login() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     if (!_isValidEmail(widget._emailController.text)) {
       _showErrorDialog("Invalid Email");
+      setState(() {
+        _isLoading = false;
+      });
       return;
     }
 
     if (!_isValidPassword(widget._passwordController.text)) {
       _showErrorDialog("Invalid Password");
+      setState(() {
+        _isLoading = false;
+      });
       return;
     }
 
@@ -36,6 +49,10 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } catch (e) {
       _showErrorDialog(e.toString());
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -80,13 +97,14 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         child: Center(
-          child: Container(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Container(
               height: 400,
               alignment: Alignment.center,
               width: double.infinity,
               margin: const EdgeInsets.symmetric(horizontal: 30),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.white),
                 borderRadius: BorderRadius.circular(15),
                 color: Colors.black.withOpacity(0.4),
               ),
@@ -94,43 +112,44 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    const Spacer(),
-                    Center(
-                        child: TextUtil(
+                    Spacer(),
+                    TextUtil(
                       text: "Login",
                       weight: true,
                       size: 30,
-                    )),
-                    const Spacer(),
-                    CustomTextField(
-                        hintText: "Email", controller: widget._emailController),
-                    const Spacer(),
-                    CustomTextField(
-                        hintText: "Password",
-                        controller: widget._passwordController),
-                    const Spacer(),
-                    ElevatedButton(
-                      onPressed: () {
-                        login();
-                        print(widget._emailController.text);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        backgroundColor: Colors.white,
-                      ),
-                      child: Container(
-                        height: 40,
-                        width: double.infinity,
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Log In",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
                     ),
-                    const Spacer(),
+                    Spacer(),
+                    CustomTextField(
+                      hintText: "Email",
+                      controller: widget._emailController,
+                    ),
+                    Spacer(),
+                    CustomTextField(
+                      hintText: "Password",
+                      controller: widget._passwordController,
+                    ),
+                    Spacer(),
+                    _isLoading
+                        ? CircularProgressIndicator()
+                        : ElevatedButton(
+                            onPressed: login,
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              backgroundColor: Colors.white,
+                            ),
+                            child: Container(
+                              height: 40,
+                              width: double.infinity,
+                              alignment: Alignment.center,
+                              child: Text(
+                                "Log In",
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                          ),
+                    Spacer(),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
@@ -140,18 +159,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           }),
                         );
                       },
-                      child: Center(
-                        child: TextUtil(
-                          text: "Don't have an account? REGISTER",
-                          size: 12,
-                          weight: true,
-                        ),
+                      child: TextUtil(
+                        text: "Don't have an account? REGISTER",
+                        size: 12,
+                        weight: true,
                       ),
                     ),
-                    const Spacer(),
+                    Spacer(),
                   ],
                 ),
-              )),
+              ),
+            ),
+          ),
         ),
       ),
     );

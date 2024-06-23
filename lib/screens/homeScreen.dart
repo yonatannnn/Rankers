@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:rankers/widgets/Drawer.dart';
+import 'package:rankers/widgets/Ministry8result.dart';
 import 'package:rankers/widgets/graduateStudentsList.dart';
 import 'package:rankers/widgets/matric10nthStudetntList.dart';
 import 'package:rankers/widgets/matric12thStudentList.dart';
@@ -108,6 +109,17 @@ class _HomescreenState extends State<Homescreen> {
                       ),
                       SizedBox(width: 10),
                       GradeSeparatorButton(
+                        toBeWritten: '8',
+                        opacity: 0.5,
+                        rank: 8,
+                        onPressed: () {
+                          setState(() {
+                            chooseWidget = 8;
+                          });
+                        },
+                      ),
+                      SizedBox(width: 10),
+                      GradeSeparatorButton(
                         toBeWritten: '10',
                         opacity: 0.5,
                         rank: 10,
@@ -145,21 +157,23 @@ class _HomescreenState extends State<Homescreen> {
               ),
               SizedBox(height: 10),
               if (chooseWidget == 0) ...[
-                Allstudentlist(),
+                Allstudentlist(false),
               ] else if (chooseWidget == 1) ...[
-                FirstRankStudentsList(),
+                FirstRankStudentsList(false),
               ] else if (chooseWidget == 2) ...[
-                SecondRankStudentsList(),
+                SecondRankStudentsList(false),
               ] else if (chooseWidget == 3) ...[
-                ThirdRankStudentsList(),
+                ThirdRankStudentsList(false),
               ] else if (chooseWidget == 6) ...[
-                MinistryRankStudentsList(),
+                MinistryRankStudentsList(false),
+              ] else if (chooseWidget == 8) ...[
+                MinistryRank8StudentsList(false),
               ] else if (chooseWidget == 10) ...[
-                Matric10RankStudentsList(),
+                Matric10RankStudentsList(false),
               ] else if (chooseWidget == 12) ...[
-                Matric12RankStudentsList(),
+                Matric12RankStudentsList(showButton: false),
               ] else if (chooseWidget == 13) ...[
-                GraduateStudentsList(),
+                GraduateStudentsList(false),
               ],
             ],
           ),

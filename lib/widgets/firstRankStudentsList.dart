@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:rankers/models/class.dart'; // Ensure this contains Grade class definition
-import 'package:rankers/models/student.dart'; // Ensure this contains StudentModel class definition
+import 'package:rankers/models/class.dart';
+import 'package:rankers/models/student.dart';
 import 'package:rankers/screens/StudentDetailScreen.dart';
-import 'package:rankers/services/studentService.dart'; // Ensure this contains StudentService class definition
-import 'package:rankers/widgets/singleStudent.dart'; // Ensure this contains Student widget definition
+import 'package:rankers/services/studentService.dart';
+import 'package:rankers/widgets/singleStudent.dart';
 
 class FirstRankStudentsList extends StatelessWidget {
-  const FirstRankStudentsList({super.key});
+  final bool showButton;
+  const FirstRankStudentsList(this.showButton, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class FirstRankStudentsList extends StatelessWidget {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           List<StudentModel> students = snapshot.data ?? [];
+          print('Total students received: ${students.length}');
           return ListView.builder(
             itemCount: students.length,
             itemBuilder: (context, index) {
@@ -40,6 +42,11 @@ class FirstRankStudentsList extends StatelessWidget {
                 default:
                   id = Grade.defaultId;
               }
+
+              // Debug: Print details of each student being processed
+              print(
+                  'Processing student: ${student.name}, Rank: ${student.rank}, Grade: ${student.grade}');
+
               if (student.rank != null && student.rank == 1) {
                 return Student(
                   id: id,
@@ -50,17 +57,25 @@ class FirstRankStudentsList extends StatelessWidget {
                   rank: student.rank,
                   matricResult: student.matricResult,
                   phoneNumber: student.phoneNumber,
+                  showButtons: showButton,
                   onpressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          StudentDetailScreen(student: student),
-                    ),
-                  );
-                },
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            StudentDetailScreen(student: student),
+                      ),
+                    );
+                  },
+                  onEdit: () {
+                    print('Edit pressed for ${student.name}');
+                  },
+                  onDelete: () {
+                    print('Delete pressed for ${student.name}');
+                  },
                 );
               } else {
+                print('Filtered out student: ${student.name}');
                 return const SizedBox.shrink();
               }
             },

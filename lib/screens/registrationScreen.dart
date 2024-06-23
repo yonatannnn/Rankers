@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:rankers/screens/loginScreen.dart';
 import 'package:rankers/services/authService.dart';
@@ -29,7 +31,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           widget._passwordController.text) {
         await authService.signup(
             widget._emailController.text, widget._passwordController.text);
-        print('successful');
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LoginScreen()));
       } else {
         _showErrorDialog('Passwords do not match');
       }
@@ -83,7 +86,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
         ),
         child: Center(
-          child: Container(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Container(
               height: 500,
               alignment: Alignment.center,
               width: double.infinity,
@@ -99,22 +104,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   children: [
                     const Spacer(),
                     Center(
-                        child: TextUtil(
-                      text: "Sign Up",
-                      weight: true,
-                      size: 30,
-                    )),
+                      child: TextUtil(
+                        text: "Sign Up",
+                        weight: true,
+                        size: 30,
+                      ),
+                    ),
                     const Spacer(),
                     CustomTextField(
-                        hintText: "Email", controller: widget._emailController),
+                      hintText: "Email",
+                      controller: widget._emailController,
+                    ),
                     const Spacer(),
                     CustomTextField(
-                        hintText: "Password",
-                        controller: widget._passwordController),
+                      hintText: "Password",
+                      controller: widget._passwordController,
+                    ),
                     const Spacer(),
                     CustomTextField(
-                        hintText: "confirm password",
-                        controller: widget._confirmPasswordController),
+                      hintText: "Confirm password",
+                      controller: widget._confirmPasswordController,
+                    ),
                     const Spacer(),
                     const Spacer(),
                     ElevatedButton(
@@ -149,7 +159,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       },
                       child: Center(
                         child: TextUtil(
-                          text: "have an account? Login",
+                          text: "Already have an account? Login",
                           size: 12,
                           weight: true,
                         ),
@@ -158,7 +168,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     const Spacer(),
                   ],
                 ),
-              )),
+              ),
+            ),
+          ),
         ),
       ),
     );

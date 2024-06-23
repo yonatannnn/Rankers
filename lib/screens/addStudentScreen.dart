@@ -15,7 +15,7 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
-  int? chooseForm;
+  int? chooseForm = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -52,31 +52,9 @@ class _AddScreenState extends State<AddScreen> {
                       ),
                       SizedBox(width: 10),
                       GradeSeparatorButton(
-                        toBeWritten: '6',
+                        toBeWritten: '6-8-10-12',
                         opacity: 0.5,
                         rank: 6,
-                        onPressed: () {
-                          setState(() {
-                            chooseForm = 2;
-                          });
-                        },
-                      ),
-                      SizedBox(width: 10),
-                      GradeSeparatorButton(
-                        toBeWritten: '10',
-                        opacity: 0.5,
-                        rank: 10,
-                        onPressed: () {
-                          setState(() {
-                            chooseForm = 2;
-                          });
-                        },
-                      ),
-                      SizedBox(width: 10),
-                      GradeSeparatorButton(
-                        toBeWritten: '12',
-                        opacity: 0.5,
-                        rank: 12,
                         onPressed: () {
                           setState(() {
                             chooseForm = 2;
@@ -107,7 +85,7 @@ class _AddScreenState extends State<AddScreen> {
                           ? AddGrade6_10_12Student()
                           : chooseForm == 3
                               ? AddGraduateStudent()
-                              : Container(), // Fallback if chooseForm is null
+                              : Container(),
                 ),
               ),
             ],

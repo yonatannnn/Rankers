@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:rankers/screens/addStudentScreen.dart';
 import 'package:rankers/screens/homeScreen.dart';
 import 'package:rankers/screens/loginScreen.dart';
+import 'package:rankers/screens/manageScreen.dart';
 import 'package:rankers/services/authService.dart';
+import 'package:rankers/services/studentService.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -24,6 +26,7 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final StudentService _studentService = StudentService();
     return Drawer(
       child: Stack(
         children: [
@@ -116,7 +119,51 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 10),
-                // Add more buttons or widgets here as needed
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    icon: Icon(
+                      Icons.edit_attributes_rounded,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      'Manage Student',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Manage()),
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(height: 10),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    icon: Icon(
+                      Icons.picture_as_pdf,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      'Generate PDF',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
+                    ),
+                    onPressed: () async {
+                      await _studentService.generatePdf();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('PDF generated successfully!')),
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
           ),

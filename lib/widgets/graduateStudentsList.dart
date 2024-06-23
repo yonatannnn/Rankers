@@ -6,7 +6,8 @@ import 'package:rankers/services/studentService.dart';
 import 'package:rankers/widgets/singleStudent.dart';
 
 class GraduateStudentsList extends StatelessWidget {
-  const GraduateStudentsList({super.key});
+  final bool showButton;
+  const GraduateStudentsList(this.showButton, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,15 +42,16 @@ class GraduateStudentsList extends StatelessWidget {
                   university: student.university,
                   department: student.department,
                   CGPA: student.cgpa,
+                  showButtons: showButton,
                   onpressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          StudentDetailScreen(student: student),
-                    ),
-                  );
-                },
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            StudentDetailScreen(student: student),
+                      ),
+                    );
+                  },
                 );
               } else {
                 return const SizedBox.shrink();
