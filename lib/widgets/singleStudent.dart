@@ -37,7 +37,6 @@ class Student extends StatelessWidget {
     this.onDelete,
     this.onEdit,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

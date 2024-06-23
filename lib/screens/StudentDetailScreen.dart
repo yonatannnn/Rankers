@@ -22,7 +22,6 @@ class _StudentDetailState extends State<StudentDetailScreen> {
       drawer: CustomDrawer(),
       body: Stack(
         children: [
-          // Background image
           Container(
             decoration: BoxDecoration(
               image: DecorationImage(

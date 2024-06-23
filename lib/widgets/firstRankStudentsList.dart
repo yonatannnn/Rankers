@@ -43,10 +43,6 @@ class FirstRankStudentsList extends StatelessWidget {
                   id = Grade.defaultId;
               }
 
-              // Debug: Print details of each student being processed
-              print(
-                  'Processing student: ${student.name}, Rank: ${student.rank}, Grade: ${student.grade}');
-
               if (student.rank != null && student.rank == 1) {
                 return Student(
                   id: id,

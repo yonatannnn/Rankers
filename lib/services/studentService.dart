@@ -89,36 +89,110 @@ class StudentService extends ChangeNotifier {
     }
     first.sort((a, b) => (a.rank ?? 0).compareTo(b.rank ?? 0));
     graduate.sort((b, a) => (a.cgpa ?? 0).compareTo(b.cgpa ?? 0));
-    grade6.sort((a, b) => (a.matricResult ?? 0).compareTo(b.matricResult ?? 0));
-    grade8.sort((a, b) => (a.matricResult ?? 0).compareTo(b.matricResult ?? 0));
+    grade6.sort((b, a) => (a.matricResult ?? 0).compareTo(b.matricResult ?? 0));
+    grade8.sort((b, a) => (a.matricResult ?? 0).compareTo(b.matricResult ?? 0));
     grade10
-        .sort((a, b) => (a.matricResult ?? 0).compareTo(b.matricResult ?? 0));
+        .sort((b, a) => (a.matricResult ?? 0).compareTo(b.matricResult ?? 0));
     grade12
-        .sort((a, b) => (a.matricResult ?? 0).compareTo(b.matricResult ?? 0));
+        .sort((b, a) => (a.matricResult ?? 0).compareTo(b.matricResult ?? 0));
+
+    final firstW = [];
+    final graduateW = [];
+    final grade6W = [];
+    final grade8W = [];
+    final grade10W = [];
+    final grade12W = [];
+
+    int counter = 1;
+    for (StudentModel stud in first) {
+      firstW.add([counter, stud]);
+      counter++;
+    }
+
+    int counter2 = 1;
+    for (StudentModel stud in graduate) {
+      graduateW.add([counter2, stud]);
+      counter2++;
+    }
+
+    int counter3 = 1;
+    for (StudentModel stud in grade6) {
+      grade6W.add([counter3, stud]);
+      counter3++;
+    }
+
+    int counter4 = 1;
+    for (StudentModel stud in grade8) {
+      grade8W.add([counter4, stud]);
+      counter4++;
+    }
+
+    int counter5 = 1;
+    for (StudentModel stud in grade10) {
+      grade10W.add([counter5, stud]);
+      counter5++;
+    }
+
+    int counter6 = 1;
+    for (StudentModel stud in grade12) {
+      grade12W.add([counter6, stud]);
+      counter6++;
+    }
 
     List<String> _getTableHeaders(String header) {
       switch (header) {
         case 'First Category':
-          return ['Name', 'Grade', 'School', 'Rank', 'Average', 'PhoneNumber'];
+          return [
+            'R_No',
+            'Name',
+            'Grade',
+            'School',
+            'Rank',
+            'Average',
+            'PhoneNumber'
+          ];
         case 'Grade 10':
         case 'Grade 12':
-          return ['Name', 'School', 'Grade', 'Matric Result', 'PhoneNumber'];
+          return [
+            'R_No',
+            'Name',
+            'School',
+            'Grade',
+            'Matric Result',
+            'PhoneNumber'
+          ];
         case 'Grade 6':
         case 'Grade 8':
-          return ['Name', 'School', 'Grade', 'Ministry Result', 'PhoneNumber'];
-        case 'Graduate':
-          return ['Name', 'University', 'Department', 'CGPA', 'PhoneNumber'];
+          return [
+            'R_No',
+            'Name',
+            'School',
+            'Grade',
+            'Ministry Result',
+            'PhoneNumber'
+          ];
+        case 'Graduates':
+          return [
+            'R_No',
+            'Name',
+            'University',
+            'Department',
+            'CGPA',
+            'PhoneNumber'
+          ];
         default:
           return [];
       }
     }
 
-    List<List<dynamic>> _getTableData(
-        List<StudentModel> students, String header) {
-      return students.map((student) {
+    List<List<dynamic>> _getTableData(List<dynamic> students, String header) {
+      return students.map((entry) {
+        int rollNumber = entry[0];
+        StudentModel student = entry[1];
         switch (header) {
           case 'First Category':
             return [
+              rollNumber,
               student.name,
               student.grade != -1 ? student.grade : '',
               student.school,
@@ -127,18 +201,44 @@ class StudentService extends ChangeNotifier {
               student.phoneNumber,
             ];
           case 'Grade 6':
-          case 'Grade 8':
-          case 'Grade 10':
-          case 'Grade 12':
             return [
+              rollNumber,
               student.name,
               student.school,
               student.grade,
               student.matricResult ?? '',
               student.phoneNumber,
             ];
-          case 'Graduate':
+          case 'Grade 8':
             return [
+              rollNumber,
+              student.name,
+              student.school,
+              student.grade,
+              student.matricResult ?? '',
+              student.phoneNumber,
+            ];
+          case 'Grade 10':
+            return [
+              rollNumber,
+              student.name,
+              student.school,
+              student.grade,
+              student.matricResult ?? '',
+              student.phoneNumber,
+            ];
+          case 'Grade 12':
+            return [
+              rollNumber,
+              student.name,
+              student.school,
+              student.grade,
+              student.matricResult ?? '',
+              student.phoneNumber,
+            ];
+          case 'Graduates':
+            return [
+              rollNumber,
               student.name,
               student.university ?? '',
               student.department ?? '',
@@ -151,38 +251,45 @@ class StudentService extends ChangeNotifier {
       }).toList();
     }
 
-    void addSection(
-        pw.Document pdf, List<StudentModel> students, String header) {
-      pdf.addPage(
-        pw.Page(
-          build: (pw.Context context) {
-            return pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                pw.Text(header,
-                    style: pw.TextStyle(
-                        fontWeight: pw.FontWeight.bold, fontSize: 16)),
-                pw.Divider(thickness: 1, height: 20),
-                pw.Table.fromTextArray(
-                  border: pw.TableBorder.all(),
-                  headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
-                  headers: _getTableHeaders(header),
-                  data: _getTableData(students, header),
-                ),
-              ],
-            );
-          },
-        ),
-      );
+    void addSection(pw.Document pdf, List<dynamic> students, String header) {
+      const int maxRowsPerPage = 20;
+      final totalRows = students.length;
+      for (int start = 0; start < totalRows; start += maxRowsPerPage) {
+        final end = (start + maxRowsPerPage > totalRows)
+            ? totalRows
+            : start + maxRowsPerPage;
+        final rows = students.sublist(start, end);
+        pdf.addPage(
+          pw.Page(
+            build: (pw.Context context) {
+              return pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  if (start == 0)
+                    pw.Text(header,
+                        style: pw.TextStyle(
+                            fontWeight: pw.FontWeight.bold, fontSize: 16)),
+                  if (start == 0) pw.Divider(thickness: 1, height: 20),
+                  pw.Table.fromTextArray(
+                    border: pw.TableBorder.all(),
+                    headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold),
+                    headers: _getTableHeaders(header),
+                    data: _getTableData(rows, header),
+                  ),
+                ],
+              );
+            },
+          ),
+        );
+      }
     }
 
-    addSection(pdf, first, 'First Category');
-    addSection(pdf, grade6, 'Grade 6');
-    addSection(pdf, grade8, 'Grade 8');
-    addSection(pdf, grade10, 'Grade 10');
-    addSection(pdf, grade12, 'Grade 12');
-    addSection(pdf, graduate, 'Graduate');
-
+    addSection(pdf, firstW, 'First Category');
+    addSection(pdf, grade6W, 'Grade 6');
+    addSection(pdf, grade8W, 'Grade 8');
+    addSection(pdf, grade10W, 'Grade 10');
+    addSection(pdf, grade12W, 'Grade 12');
+    addSection(pdf, graduateW, 'Graduates');
     try {
       final externalDir = await getExternalStorageDirectory();
       final path = '${externalDir?.path}/student_list.pdf';

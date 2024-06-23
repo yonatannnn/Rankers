@@ -38,6 +38,9 @@ class MinistryRank8StudentsList extends StatelessWidget {
                 case 6:
                   id = Grade.grade6;
                   break;
+                case 8:
+                  id = Grade.grade6;
+                  break;
                 default:
                   id = Grade.defaultId;
               }

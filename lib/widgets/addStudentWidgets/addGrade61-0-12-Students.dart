@@ -61,7 +61,6 @@ class _AddStudentState6 extends State<AddGrade6_10_12Student> {
 
   @override
   Widget build(BuildContext context) {
-    // Access AuthService instance using Provider
     final authService = Provider.of<AuthService>(context, listen: false);
 
     return Form(

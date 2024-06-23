@@ -126,6 +126,14 @@ class StudentModel implements Comparable<StudentModel> {
         matricResult: data['matricResult'],
         phoneNumber: data['phoneNumber'],
       );
+    } else if (data['grade'] == 8) {
+      return StudentModel.grade6(
+        name: data['name'],
+        grade: data['grade'],
+        school: data['school'],
+        matricResult: data['matricResult'],
+        phoneNumber: data['phoneNumber'],
+      );
     } else {
       return StudentModel.otherGrades(
         name: data['name'],

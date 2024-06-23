@@ -54,7 +54,7 @@ class _HomescreenState extends State<Homescreen> {
                   child: Row(
                     children: [
                       GradeSeparatorButton(
-                        toBeWritten: 'All',
+                        toBeWritten: 'Grades',
                         opacity: 0.5,
                         rank: 0,
                         onPressed: () {
@@ -142,7 +142,7 @@ class _HomescreenState extends State<Homescreen> {
                       ),
                       SizedBox(width: 10),
                       GradeSeparatorButton(
-                        toBeWritten: 'Graduate',
+                        toBeWritten: 'Graduates',
                         opacity: 0.5,
                         rank: -1,
                         onPressed: () {

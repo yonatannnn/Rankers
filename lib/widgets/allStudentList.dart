@@ -55,6 +55,9 @@ class Allstudentlist extends StatelessWidget {
                 case 6:
                   id = Grade.grade6;
                   break;
+                case 8:
+                  id = Grade.grade6;
+                  break;
                 case -1:
                   id = 13;
                   break;

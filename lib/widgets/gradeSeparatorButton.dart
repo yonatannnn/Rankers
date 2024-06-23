@@ -24,10 +24,12 @@ class GradeSeparatorButton extends StatelessWidget {
     String above;
     if (rank == 1 || rank == 2 || rank == 3) {
       above = 'Rank';
-    } else if (rank == 6 || rank == 10 || rank == 12) {
+    } else if (rank == 6 || rank == 10 || rank == 12 || rank == 8) {
       above = 'Grade';
+    } else if (rank == 0) {
+      above = 'All';
     } else {
-      above = 'Grade';
+      above = '';
     }
     return SizedBox(
       height: 100,
