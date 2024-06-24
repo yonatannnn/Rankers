@@ -66,7 +66,7 @@ class Student extends StatelessWidget {
             SizedBox(height: 5),
             Row(
               children: [
-                if (id == 0 || id == 6 || id == 10 || id == 12 || id == 13) ...[
+                if (id == 0 || id == 6 || id == 12 || id == 13) ...[
                   Icon(Icons.school, color: Colors.white, size: 16),
                   SizedBox(width: 5),
                   Expanded(
@@ -79,7 +79,7 @@ class Student extends StatelessWidget {
                     ),
                   ),
                 ],
-                if (id == 0 || id == 6 || id == 10 || id == 12) ...[
+                if (id == 0 || id == 6 || id == 12) ...[
                   Icon(Icons.grade, color: Colors.white, size: 16),
                   SizedBox(width: 5),
                   Expanded(
@@ -103,7 +103,7 @@ class Student extends StatelessWidget {
                     ),
                   ),
                 ],
-                if (id == 6 || id == 10 || id == 12) ...[
+                if (id == 6 || id == 8 || id == 12) ...[
                   Icon(Icons.bar_chart, color: Colors.white, size: 16),
                   SizedBox(width: 5),
                   Text(

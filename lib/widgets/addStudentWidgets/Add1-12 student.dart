@@ -105,7 +105,7 @@ class _AddStudentState extends State<AddStudent> {
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'Please enter the grade level.';
-                    } else if (value.length > 1) {
+                    } else if (value.length > 2) {
                       return 'please enter valid grade level';
                     }
                     return null;

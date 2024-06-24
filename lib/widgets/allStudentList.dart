@@ -34,7 +34,7 @@ class Allstudentlist extends StatelessWidget {
 
           List<StudentModel> students = snapshot.data ?? [];
           int compareStudents(StudentModel a, StudentModel b) {
-            return a.name.compareTo(b.name);
+            return a.grade.compareTo(b.grade);
           }
 
           students.sort(compareStudents);
@@ -46,9 +46,6 @@ class Allstudentlist extends StatelessWidget {
               int id;
 
               switch (student.grade) {
-                case 10:
-                  id = Grade.grade10;
-                  break;
                 case 12:
                   id = Grade.grade12;
                   break;

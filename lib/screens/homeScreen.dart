@@ -120,17 +120,6 @@ class _HomescreenState extends State<Homescreen> {
                       ),
                       SizedBox(width: 10),
                       GradeSeparatorButton(
-                        toBeWritten: '10',
-                        opacity: 0.5,
-                        rank: 10,
-                        onPressed: () {
-                          setState(() {
-                            chooseWidget = 10;
-                          });
-                        },
-                      ),
-                      SizedBox(width: 10),
-                      GradeSeparatorButton(
                         toBeWritten: '12',
                         opacity: 0.5,
                         rank: 12,
@@ -168,8 +157,6 @@ class _HomescreenState extends State<Homescreen> {
                 MinistryRankStudentsList(false),
               ] else if (chooseWidget == 8) ...[
                 MinistryRank8StudentsList(false),
-              ] else if (chooseWidget == 10) ...[
-                Matric10RankStudentsList(false),
               ] else if (chooseWidget == 12) ...[
                 Matric12RankStudentsList(showButton: false),
               ] else if (chooseWidget == 13) ...[

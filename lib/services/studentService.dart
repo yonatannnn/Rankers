@@ -151,7 +151,6 @@ class StudentService extends ChangeNotifier {
             'Average',
             'PhoneNumber'
           ];
-        case 'Grade 10':
         case 'Grade 12':
           return [
             'R_No',
@@ -218,22 +217,15 @@ class StudentService extends ChangeNotifier {
               student.matricResult ?? '',
               student.phoneNumber,
             ];
-          case 'Grade 10':
-            return [
-              rollNumber,
-              student.name,
-              student.school,
-              student.grade,
-              student.matricResult ?? '',
-              student.phoneNumber,
-            ];
           case 'Grade 12':
+            int result = (student.matricResult as double?)?.toInt() ?? 0;
+
             return [
               rollNumber,
               student.name,
               student.school,
               student.grade,
-              student.matricResult ?? '',
+              result ?? '',
               student.phoneNumber,
             ];
           case 'Graduates':
@@ -287,7 +279,6 @@ class StudentService extends ChangeNotifier {
     addSection(pdf, firstW, 'First Category');
     addSection(pdf, grade6W, 'Grade 6');
     addSection(pdf, grade8W, 'Grade 8');
-    addSection(pdf, grade10W, 'Grade 10');
     addSection(pdf, grade12W, 'Grade 12');
     addSection(pdf, graduateW, 'Graduates');
     try {

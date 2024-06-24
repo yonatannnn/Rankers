@@ -39,6 +39,7 @@ class _AddScreenState extends State<AddScreen> {
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       GradeSeparatorButton(
                         toBeWritten: '1-12',
@@ -52,7 +53,7 @@ class _AddScreenState extends State<AddScreen> {
                       ),
                       SizedBox(width: 10),
                       GradeSeparatorButton(
-                        toBeWritten: '6-8-10-12',
+                        toBeWritten: '6-8-12',
                         opacity: 0.5,
                         rank: 6,
                         onPressed: () {
