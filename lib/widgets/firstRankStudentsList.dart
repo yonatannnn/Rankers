@@ -30,14 +30,17 @@ class FirstRankStudentsList extends StatelessWidget {
               final student = students[index];
               int id;
               switch (student.grade) {
-                case 10:
-                  id = Grade.grade10;
-                  break;
                 case 12:
                   id = Grade.grade12;
                   break;
                 case 6:
                   id = Grade.grade6;
+                  break;
+                case 8:
+                  id = Grade.grade6;
+                  break;
+                case -1:
+                  id = 13;
                   break;
                 default:
                   id = Grade.defaultId;

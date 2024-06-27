@@ -29,9 +29,6 @@ class Matric10RankStudentsList extends StatelessWidget {
               final student = students[index];
               int id;
               switch (student.grade) {
-                case 10:
-                  id = Grade.grade10;
-                  break;
                 case 12:
                   id = Grade.grade12;
                   break;

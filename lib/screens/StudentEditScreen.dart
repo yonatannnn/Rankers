@@ -48,7 +48,7 @@ class _EditScreenState extends State<EditScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.grade == 6 || widget.grade == 10 || widget.grade == 12) {
+    if (widget.grade == 6 || widget.grade == 8 || widget.grade == 12) {
       chooseForm = 2;
     } else if (widget.grade == -1) {
       chooseForm = 3;
